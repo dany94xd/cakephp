@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-08-2018 a las 18:46:29
--- Versión del servidor: 10.1.34-MariaDB
--- Versión de PHP: 7.2.7
+-- Tiempo de generación: 27-08-2018 a las 00:06:49
+-- Versión del servidor: 10.1.31-MariaDB
+-- Versión de PHP: 7.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,30 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `vial`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `courses`
+--
+
+CREATE TABLE `courses` (
+  `id` int(11) NOT NULL,
+  `title` varchar(30) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `capacity` int(11) NOT NULL,
+  `date_start` date NOT NULL,
+  `date_finish` date NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `courses`
+--
+
+INSERT INTO `courses` (`id`, `title`, `description`, `capacity`, `date_start`, `date_finish`, `state`) VALUES
+(1, 'ONE PIECE', 'EL WACHIN NO PUEDE HACER CAKE', 24, '2018-08-26', '2018-08-31', 1),
+(2, 'BARCELONA vs AUCAS', 'SCCXCXCC', 20, '2018-08-26', '2018-10-15', 1);
 
 -- --------------------------------------------------------
 
@@ -131,10 +155,15 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `person_id`, `user`, `password`, `profile_id`) VALUES
 (1, 1, 'UserAdmin', '$2y$10$Wk6YQNU0ohjjt8pF.HHp0OfuQYb3VT/gTXnGikfJN6NosL0V.gPeu', 1);
 
-
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `courses`
+--
+ALTER TABLE `courses`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `options`
@@ -175,6 +204,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `courses`
+--
+ALTER TABLE `courses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `options`
 --
 ALTER TABLE `options`
@@ -202,7 +237,7 @@ ALTER TABLE `profiles`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
