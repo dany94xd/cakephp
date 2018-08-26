@@ -1,0 +1,16 @@
+ .mn {
+            padding: 0;
+        }
+        .mn li {
+            display: inline;
+        }
+        
+        .mn li a {
+        font-family: Arial;
+        font-size:11px;
+        text-decoration: none;
+        float:left;
+        padding: 10px;
+        background-color: #2175bc;
+        color: #fff;
+        }
