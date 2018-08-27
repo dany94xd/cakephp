@@ -1,0 +1,114 @@
+<?php
+namespace App\Controller;
+
+use App\Controller\AppController;
+
+/**
+ * Registers Controller
+ *
+ * @property \App\Model\Table\RegistersTable $Registers
+ *
+ * @method \App\Model\Entity\Register[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ */
+class RegistersController extends AppController
+{
+
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|void
+     */
+    public function index()
+    {
+        $this->paginate = [
+            'contain' => ['Courses', 'Users']
+        ];
+        $registers = $this->paginate($this->Registers);
+
+        $this->set(compact('registers'));
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Register id.
+     * @return \Cake\Http\Response|void
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $register = $this->Registers->get($id, [
+            'contain' => ['Courses', 'Users']
+        ]);
+
+        $this->set('register', $register);
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $register = $this->Registers->newEntity();
+        if ($this->request->is('post')) {
+            $register = $this->Registers->patchEntity($register, $this->request->getData());
+            if ($this->Registers->save($register)) {
+                $this->Flash->success(__('The register has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The register could not be saved. Please, try again.'));
+        }
+        $courses = $this->Registers->Courses->find('list', ['limit' => 200]);
+        $users = $this->Registers->Users->find('list', ['limit' => 200]);
+        $this->set(compact('register', 'courses', 'users'));
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Register id.
+     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $register = $this->Registers->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $register = $this->Registers->patchEntity($register, $this->request->getData());
+            if ($this->Registers->save($register)) {
+                $this->Flash->success(__('The register has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The register could not be saved. Please, try again.'));
+        }
+        $courses = $this->Registers->Courses->find('list', ['limit' => 200]);
+        $users = $this->Registers->Users->find('list', ['limit' => 200]);
+        $this->set(compact('register', 'courses', 'users'));
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Register id.
+     * @return \Cake\Http\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $register = $this->Registers->get($id);
+        if ($this->Registers->delete($register)) {
+            $this->Flash->success(__('The register has been deleted.'));
+        } else {
+            $this->Flash->error(__('The register could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+}

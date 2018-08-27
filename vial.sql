@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-08-2018 a las 00:06:49
--- Versión del servidor: 10.1.31-MariaDB
--- Versión de PHP: 7.2.3
+-- Tiempo de generación: 27-08-2018 a las 01:58:32
+-- Versión del servidor: 10.1.34-MariaDB
+-- Versión de PHP: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -137,6 +137,28 @@ INSERT INTO `profiles` (`id`, `profile`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `registers`
+--
+
+CREATE TABLE `registers` (
+  `id` int(11) NOT NULL,
+  `date_register` date NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  `calification` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `registers`
+--
+
+INSERT INTO `registers` (`id`, `date_register`, `state`, `calification`, `course_id`, `user_id`) VALUES
+(1, '2018-09-26', 1, 10, 1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -192,6 +214,14 @@ ALTER TABLE `profiles`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `registers`
+--
+ALTER TABLE `registers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_registers_courses` (`course_id`),
+  ADD KEY `fk_registers_users` (`user_id`);
+
+--
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
@@ -234,6 +264,12 @@ ALTER TABLE `profiles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `registers`
+--
+ALTER TABLE `registers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
@@ -249,6 +285,13 @@ ALTER TABLE `users`
 ALTER TABLE `options_profiles`
   ADD CONSTRAINT `fk_options_profile_options` FOREIGN KEY (`option_id`) REFERENCES `options` (`id`),
   ADD CONSTRAINT `fk_options_profile_profiles` FOREIGN KEY (`profile_id`) REFERENCES `profiles` (`id`);
+
+--
+-- Filtros para la tabla `registers`
+--
+ALTER TABLE `registers`
+  ADD CONSTRAINT `fk_registers_courses` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+  ADD CONSTRAINT `fk_registers_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `users`
